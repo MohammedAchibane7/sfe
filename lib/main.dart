@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/auth/signupscreen.dart';
+
+import 'screens/auth/signinscreen.dart';
+import 'screens/auth/signupscreen.dart';
 
 // import 'screens/auth/tokotoscreen.dart';
 
@@ -17,10 +19,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 175, 99, 247)),
+        // colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 247, 177, 121)),
+         colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepOrange, // Set primary color to orange
+          // You can adjust other color properties as needed
+        ),
         useMaterial3: true,
       ),
-      home: SignupScreen(),
+      home: SigninScreen(),
     );
   }
 }
