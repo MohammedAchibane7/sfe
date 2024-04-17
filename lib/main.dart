@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'screens/auth/signinscreen.dart';
 import 'screens/auth/signupscreen.dart';
+import 'screens/auth/tokotoscreen.dart';
+// import 'screens/auth/signupscreen.dart';
 
 // import 'screens/auth/tokotoscreen.dart';
 
@@ -21,10 +23,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 247, 177, 121)),
          colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepOrange, // Set primary color to orange
+          seedColor: Color(0xfff77546), // Set primary color to orange
           // You can adjust other color properties as needed
         ),
         useMaterial3: true,
+        fontFamily: "Ubuntu",
       ),
       home: SigninScreen(),
     );

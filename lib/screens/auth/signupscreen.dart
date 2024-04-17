@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -26,6 +27,7 @@ class SignupScreen extends StatelessWidget {
                     Text(
                       'Sign Up',
                       style: TextStyle(
+                        // fontFamily: "Poppins",
                         fontSize: 25.0,
                         fontWeight: FontWeight.w600,
                         color: Colors.grey,
@@ -42,10 +44,12 @@ class SignupScreen extends StatelessWidget {
                   height: 50,
                 ),
                 Text(
+                  
                   'Register Account',
                   style: TextStyle(
+                    fontFamily: "Ubuntu",
                     fontSize: 28.0,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: Colors.black,
                   ),
                 ),
@@ -67,7 +71,7 @@ class SignupScreen extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: "Email", // Label text
                     hintText: "Enter your Email", // Hint text
-                    suffixIcon: Icon(Icons.lock_outline),
+                    suffixIcon: Icon(Icons.mail_outlined),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(40),
                     ), // Suffix icon
@@ -112,7 +116,7 @@ class SignupScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18),
                   ),
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.orangeAccent,
+                    backgroundColor: Color(0xfff77546),
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(
                       horizontal: 130,
@@ -129,10 +133,30 @@ class SignupScreen extends StatelessWidget {
                     Container(
                       width: 35,
                       height: 35,
+                      padding: EdgeInsets.all(3),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.grey,
+                        color: const Color.fromARGB(255, 209, 209, 209),
                       ),
+                      child: SvgPicture.asset("assests/images/google.svg",height:25 ,width: 25,),
+
+                    ),
+                    SizedBox(
+                      width: 13,
+                    ),
+                    Container(
+                      width: 35,
+                      height: 35,
+                      // padding: EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color.fromARGB(255, 209, 209, 209),
+                      ),
+                      child: Container(
+                          margin: EdgeInsets.all(5),
+                          child: Image.asset(
+                            "assests/images/facebook1.png",
+                          )),
                     ),
                     SizedBox(
                       width: 13,
@@ -142,18 +166,12 @@ class SignupScreen extends StatelessWidget {
                       height: 35,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.grey,
+                        color: const Color.fromARGB(255, 209, 209, 209),
                       ),
-                    ),
-                    SizedBox(
-                      width: 13,
-                    ),
-                    Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey,
+                      child: Image.asset(
+                        "assests/images/twitter1.png",
+                        cacheHeight: 22,
+                        cacheWidth: 22,
                       ),
                     ),
                   ],
