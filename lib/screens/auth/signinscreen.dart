@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 
-var formKey = GlobalKey<FormState>();
+import 'widgets/stateful_Checkbox.dart';
 
-class SigninScreen extends StatelessWidget {
+var formKey = GlobalKey<FormState>();
+String email = "", password = "";
+bool isChecked = false;
+bool isVisible = false;
+
+class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
 
+  @override
+  State<SigninScreen> createState() => _SigninScreenState();
+}
+
+class _SigninScreenState extends State<SigninScreen> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -16,16 +26,16 @@ class SigninScreen extends StatelessWidget {
           child: Form(
             key: formKey,
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(
                         Icons.arrow_back_ios_new_rounded,
                         size: 18,
-                        color: const Color.fromARGB(160, 0, 0, 0),
+                        color: Color.fromARGB(160, 0, 0, 0),
                       ),
                       Text(
                         'Sign In',
@@ -43,10 +53,10 @@ class SigninScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
-                  Text(
+                  const Text(
                     'Welcome Back',
                     style: TextStyle(
                       fontSize: 28.0,
@@ -54,10 +64,10 @@ class SigninScreen extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
-                  Text(
+                  const Text(
                     'Sign in with your email and password \n or continue with social media ',
                     style: TextStyle(
                       color: Colors.grey,
@@ -65,44 +75,68 @@ class SigninScreen extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(
-                    height: 40,
+                  const SizedBox(
+                    height: 45,
                   ),
                   TextFormField(
-                    validator: (String? value){
-                      if(value!.isNotEmpty){
-                        if(!value.contains("@") || !value.contains(".")){
-                          return "the email is invalid";
-                        }else {
-                          return null;
-                        }
+                    onSaved: (String? newValue) {
+                      email = newValue!;
+                    },
+                    validator: (String? value) {
+                      // if(value!.isNotEmpty){
+                      //   if(!value.contains("@") || !value.contains(".")){
+                      //     return "the email is invalid";
+                      //   }else {
+                      //     return null;
+                      //   }
+                      // }
+                      final bool emailValid = RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value!);
+                      if (!emailValid) {
+                        return "the email is not valid";
+                      } else {
+                        return null;
                       }
                     },
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                       labelText: "Email", // Label text
                       hintText: "Enter your Email", // Hint text
-                      suffixIcon: Icon(Icons.mail_outline),
+                      suffixIcon: const Icon(Icons.mail_outline),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(40),
                       ), // Suffix icon
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
+                  const SizedBox(
+                    height: 23,
                   ),
                   TextFormField(
-                    obscureText: true,
-                    validator: (String? value){
-                      if(value!.length <8){
+                    obscureText: !isVisible,
+                    onSaved: (String? newValue) {
+                      password = newValue!;
+                    },
+                    validator: (String? value) {
+                      if (value!.length < 8) {
                         return "the length is <8";
-                      }else {
+                      } else {
                         return null;
                       }
                     },
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                       labelText: "Password", // Label text
                       hintText: "Enter your Password", // Hint text
-                      suffixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          isVisible = !isVisible;
+                          setState(() {});
+                        },
+                        icon: Icon(isVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(40),
                       ), // Suffix icon
@@ -111,15 +145,16 @@ class SigninScreen extends StatelessWidget {
                   Row(
                     children: [Container()],
                   ),
-                  SizedBox(
-                    height: 20,
+                  const SizedBox(
+                    height: 18,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          Checkbox(value: true, onChanged: changeCheckboxState),
+                          // Checkbox(value: isChecked, onChanged: changeCheckboxState),
+                          statefulCheckbox(),
                           Text("Remember me"),
                         ],
                       ),
@@ -127,31 +162,31 @@ class SigninScreen extends StatelessWidget {
                         "Forgot Password",
                         style: TextStyle(
                           decoration: TextDecoration.underline,
-                          color: Colors.grey,
+                          color: Color.fromRGBO(44, 36, 36, 0.74),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 35,
+                  const SizedBox(
+                    height: 45,
                   ),
                   TextButton(
-                    onPressed: signIn,
-                    child: Text(
-                      'Continue',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    onPressed: () => signIn(context),
                     style: TextButton.styleFrom(
-                      backgroundColor: Color(0xfff77546),
+                      backgroundColor: const Color(0xfff77546),
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 130,
                         vertical: 16,
                       ),
                     ),
+                    child: const Text(
+                      'Continue',
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
-                  SizedBox(
-                    height: 60,
+                  const SizedBox(
+                    height: 80,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -159,9 +194,9 @@ class SigninScreen extends StatelessWidget {
                       Container(
                         width: 35,
                         height: 35,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color.fromARGB(255, 209, 209, 209),
+                          color: Color.fromARGB(255, 209, 209, 209),
                         ),
                         child: Image.asset(
                           "assests/images/google.png",
@@ -169,32 +204,32 @@ class SigninScreen extends StatelessWidget {
                           cacheWidth: 25,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 13,
                       ),
                       Container(
                         width: 35,
                         height: 35,
                         // padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color.fromARGB(255, 209, 209, 209),
+                          color: Color.fromARGB(255, 209, 209, 209),
                         ),
                         child: Container(
-                            margin: EdgeInsets.all(5),
+                            margin: const EdgeInsets.all(5),
                             child: Image.asset(
                               "assests/images/facebook1.png",
                             )),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 13,
                       ),
                       Container(
                         width: 35,
                         height: 35,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color.fromARGB(255, 209, 209, 209),
+                          color: Color.fromARGB(255, 209, 209, 209),
                         ),
                         child: Image.asset(
                           "assests/images/twitter1.png",
@@ -204,21 +239,35 @@ class SigninScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(" Don't have an account ?"),
-                      Text(
-                        " Sign Up ",
-                        style: TextStyle(
-                          color: Color(0xfff77546),
+                      const Text(" Don't have an account ?",style: TextStyle(fontSize: 16.0,),),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/signup");
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+                          decoration: BoxDecoration(
+                            
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: const Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              color: Color(0xfff77546),
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -228,14 +277,30 @@ class SigninScreen extends StatelessWidget {
     );
   }
 
-  void signIn() {
-    formKey.currentState!.validate();
+  void signIn(context) {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      print(email);
+      print(password);
+      print(isChecked);
+
+      //call sign in API --> if success --> go to home screen
+      Navigator.pushNamed(context, "/home");
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const HomeScreen()),
+      // );
+    }
   }
+
   void printSalam() {
     print('Salam');
   }
 
   void changeCheckboxState(bool? value) {
-    print('changed');
+    print('value $value');
+    isChecked = value!;
+    // setState(() {});
   }
 }
